@@ -73,32 +73,32 @@
     $(document).ready(function () {
 
         //add city
-        {#let form = $('.add-city-form')#}
-        {#form.on('submit', function (event) {#}
-        {#    event.preventDefault()#}
-        {##}
-        {#    $.ajax({#}
-        {#        url: '{% url 'weather:index' %}',#}
-        {#        method: 'POST',#}
-        {#        data: form.serialize(),#}
-        {#        success: function (data) {#}
-        {#            console.log('success')#}
-        {#            let citiesData = $('.cities-data')#}
-        {#            citiesData.append(data.new_city)#}
-        {#        },#}
-        {#        error: function (errorData) {#}
-        {#            let errorMessage = errorData.responseJSON.errorMessage#}
-        {#            let formErrors = $('.form-errors')#}
-        {#            if (formErrors){#}
-        {#                formErrors.remove()#}
-        {#            }#}
-        {#            let formRow = form.find('.row')#}
-        {#            formRow.append(#}
-        {#                '<div class="col-12 form-errors"><ul><p><li><strong class="text-danger">'+ errorMessage + '</strong></li></p></ul></div>'#}
-        {#            )#}
-        {#        }#}
-        {#    })#}
-        //})
+        let form = $('.add-city-form')
+        form.on('submit', function (event) {
+            event.preventDefault()
+
+            $.ajax({
+                url: '{% url 'weather:index' %}',
+                method: 'POST',
+                data: form.serialize(),
+                success: function (data) {
+                    console.log('success')
+                    let citiesData = $('.cities-data')
+                    citiesData.append(data.new_city)
+                },
+                error: function (errorData) {
+                    let errorMessage = errorData.responseJSON.errorMessage
+                    let formErrors = $('.form-errors')
+                    if (formErrors){
+                        formErrors.remove()
+                    }
+                    let formRow = form.find('.row')
+                    formRow.append(
+                        '<div class="col-12 form-errors"><ul><p><li><strong class="text-danger">'+ errorMessage + '</strong></li></p></ul></div>'
+                    )
+                }
+            })
+        })
 
 
         //remove city from the list
