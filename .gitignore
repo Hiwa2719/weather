@@ -2,3 +2,5 @@
 requirement.txt
 notes.txt
 __pycache__/
+test.py
+API_KEYS.py

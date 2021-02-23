@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">
+    <title>Your Cities Weather!</title>
+</head>
+<body>
+<header class="bg-info py-5">
+    <div class="row">
+        <div class="col-1 "></div>
+        <div class="col-10 col-md-8">
+            <h1 class="text-light">What's the weather like?</h1>
+        </div>
+    </div>
+</header>
+
+<div class="row justify-content-center p-3 m-3 p-md-5 m-md-5">
+    <div class="col-12 col-md-6">
+        <form method="POST" class="add-city-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group">
+                        {{ form.city }}
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary form-control.app">Add City</button>
+                        </div>
+                    </div>
+                </div>
+                {% if form.city.errors %}
+                    <div class="col-12 form-errors">
+                        <ul>
+                            {% for error in form.city.errors %}
+                                <p>
+                                <li><strong class="text-danger">{{ error|escape|title }}</strong></li>
+                                </p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row  mt-3 mt-md-5">
+    <div class="col-6 mx-auto text-center">
+        <a href="{% url 'weather:new_list' %}" class="btn btn-outline-danger">New List</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-8 col-md-6 mx-auto">
+        <hr>
+    </div>
+</div>
+
+<div class="cities-data">
+    {% include 'weather/city_card.html' with cities=cities %}
+</div>
+
+
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        //add city
+        {#let form = $('.add-city-form')#}
+        {#form.on('submit', function (event) {#}
+        {#    event.preventDefault()#}
+        {##}
+        {#    $.ajax({#}
+        {#        url: '{% url 'weather:index' %}',#}
+        {#        method: 'POST',#}
+        {#        data: form.serialize(),#}
+        {#        success: function (data) {#}
+        {#            console.log('success')#}
+        {#            let citiesData = $('.cities-data')#}
+        {#            citiesData.append(data.new_city)#}
+        {#        },#}
+        {#        error: function (errorData) {#}
+        {#            let errorMessage = errorData.responseJSON.errorMessage#}
+        {#            let formErrors = $('.form-errors')#}
+        {#            if (formErrors){#}
+        {#                formErrors.remove()#}
+        {#            }#}
+        {#            let formRow = form.find('.row')#}
+        {#            formRow.append(#}
+        {#                '<div class="col-12 form-errors"><ul><p><li><strong class="text-danger">'+ errorMessage + '</strong></li></p></ul></div>'#}
+        {#            )#}
+        {#        }#}
+        {#    })#}
+        //})
+
+
+        //remove city from the list
+        let citiesData = $('.cities-data')
+        citiesData.on('click', '.close', function (event) {
+            let $this = $(this)
+            let form = $this.closest('form')
+            $.ajax({
+                url: '{% url 'weather:remove_city' %}',
+                method: 'POST',
+                data: form.serialize(),
+                success: function (data) {
+                    console.log('success')
+                    let cityCard = $this.closest('.city-card')
+                    console.log(cityCard)
+                    cityCard.remove()
+                },
+                error: function (errorData) {
+                    console.log(errorData)
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>
+
