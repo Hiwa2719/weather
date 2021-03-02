@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/CustomCss.css' %}">
     <title>Your Cities Weather!</title>
 </head>
-<body>
+<body  style="overflow-x: hidden">
+
 <header class="bg-info py-5">
     <div class="row">
         <div class="col-1 "></div>
@@ -62,67 +64,12 @@
     {% include 'weather/city_card.html' with cities=cities %}
 </div>
 
+<div class="modal-sec">
+</div>
 
+<!-- JS files -->
+{% include 'weather/js.html' %}
 
-<script src="{% static 'js/jquery.js' %}"></script>
-<script src="{% static 'js/popper.js' %}"></script>
-<script src="{% static 'js/bootstrap.js' %}"></script>
-
-
-<script>
-    $(document).ready(function () {
-
-        //add city
-        let form = $('.add-city-form')
-        form.on('submit', function (event) {
-            event.preventDefault()
-
-            $.ajax({
-                url: '{% url 'weather:index' %}',
-                method: 'POST',
-                data: form.serialize(),
-                success: function (data) {
-                    console.log('success')
-                    let citiesData = $('.cities-data')
-                    citiesData.append(data.new_city)
-                },
-                error: function (errorData) {
-                    let errorMessage = errorData.responseJSON.errorMessage
-                    let formErrors = $('.form-errors')
-                    if (formErrors){
-                        formErrors.remove()
-                    }
-                    let formRow = form.find('.row')
-                    formRow.append(
-                        '<div class="col-12 form-errors"><ul><p><li><strong class="text-danger">'+ errorMessage + '</strong></li></p></ul></div>'
-                    )
-                }
-            })
-        })
-
-
-        //remove city from the list
-        let citiesData = $('.cities-data')
-        citiesData.on('click', '.close', function (event) {
-            let $this = $(this)
-            let form = $this.closest('form')
-            $.ajax({
-                url: '{% url 'weather:remove_city' %}',
-                method: 'POST',
-                data: form.serialize(),
-                success: function (data) {
-                    console.log('success')
-                    let cityCard = $this.closest('.city-card')
-                    console.log(cityCard)
-                    cityCard.remove()
-                },
-                error: function (errorData) {
-                    console.log(errorData)
-                }
-            })
-        })
-    })
-</script>
 </body>
 </html>
 

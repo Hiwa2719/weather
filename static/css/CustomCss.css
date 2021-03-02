@@ -1,0 +1,45 @@
+
+.close-row {
+    z-index: 100;
+    position: absolute;
+    right: 0
+}
+
+
+.city-card {
+    transition: all .4s;
+    box-shadow: 1px 2px 5px #999;
+}
+
+.city-card:hover {
+    box-shadow: 2px 3px 15px #999;
+    transform: translateY(-1px);
+    cursor: pointer;
+}
+
+.triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 30px solid rgba(77, 86, 110, 0.57);
+    border-bottom: 0;
+}
+
+.square {
+    background-color: transparent;
+    border: 2px solid transparent;
+}
+
+.square-light {
+  background-color: rgba(77, 86, 110, 0.57);
+}
+
+.square:hover {
+  border: 2px solid red;
+}
+
+.hour .sub{
+    border-bottom: 2px solid #eeeeee;
+
+}

@@ -1,0 +1,114 @@
+{% load static %}
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        //add city
+        let form = $('.add-city-form')
+        form.on('submit', function (event) {
+            event.preventDefault()
+
+            $.ajax({
+                url: "{% url 'weather:index' %}",
+                method: 'POST',
+                data: form.serialize(),
+                success: function (data) {
+                    let citiesData = $('.cities-data')
+                    citiesData.append(data.new_city)
+                },
+                error: function (errorData) {
+                    let errorMessage = errorData.responseJSON.errorMessage
+                    let formErrors = $('.form-errors')
+                    if (formErrors){
+                        formErrors.remove()
+                    }
+                    let formRow = form.find('.row')
+                    formRow.append(
+                        '<div class="col-12 form-errors"><ul><p><li><strong class="text-danger">'+ errorMessage + '</strong></li></p></ul></div>'
+                    )
+                }
+            })
+        })
+
+
+        //remove city from the list
+        let citiesData = $('.cities-data')
+        citiesData.on('click', '.close', function (event) {
+            let $this = $(this)
+            let form = $this.closest('form')
+            $.ajax({
+                url: '{% url 'weather:remove_city' %}',
+                method: 'POST',
+                data: form.serialize(),
+                success: function (data) {
+                    let cityCard = $this.closest('.city-card')
+                    cityCard.remove()
+                },
+                error: function (errorData) {
+                    console.log(errorData)
+                }
+            })
+        })
+
+
+        //modal trigger
+        let modalSec = $('.modal-sec')
+        citiesData.on('click', '.card-detail', function (event) {
+
+            let $this = $(this)
+            let cityCard = $this.parent()
+            let form = cityCard.find('form')
+            $.ajax({
+                url: '{% url 'weather:modal-detail' %}',
+                method: 'POST',
+                data: form.serialize(),
+                success: function (data) {
+                    modalSec.html(data.modalRender)
+                    let modalBtn = modalSec.find('#modal-btn')
+                    modalBtn.click()
+                    modalSec.find('.square').eq("0").click()
+                },
+                error: function (errorData) {
+                    console.log('error')
+                    console.log(errorData)
+                }
+            })
+        })
+
+        //day inside modal
+        modalSec.on('click', '.square', function (event) {
+            let $this = $(this)
+
+            let squareLight = modalSec.find('.square-light')
+            squareLight.removeClass('square-light')
+            squareLight.addClass('square')
+
+            let triangle = modalSec.find('.triangle-down')
+            triangle.addClass('d-none')
+
+            let squareParent = $this.parent()
+            $this.removeClass('square')
+            $this.addClass('square-light')
+            squareParent.find('.triangle-down').removeClass('d-none')
+
+            let hour = modalSec.find('.hour')
+            let selectedDate = $this.attr('data-date')
+            let j = 0
+            $.each(hour, function (i, element) {
+                let $element = $(element)
+                if (($element.attr('data-date') == selectedDate) || ((0 < j) && (j < 8))){
+                    $element.removeClass('d-none')
+                    j++
+                }else{
+                    console.log('hello')
+                    $element.addClass('d-none')
+                }
+            })
+        })
+    })
+</script>

@@ -1,20 +1,59 @@
 import requests
+import json
+from datetime import datetime, date
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.template.loader import get_template
 from django.views.generic import FormView, View
-from django.views.decorators.vary import vary_on_headers
-from django.utils.decorators import method_decorator
+
 from .forms import AddCityForm
 
 import API_KEYS
 API_KEY = getattr(API_KEYS, 'WEATHER_MAP_API_KEY', None)
 
 
+class GetModalDetail(View):
+    def post(self, request, *args, **kwargs):
+        """for capturing 7 days data"""
+        city = request.POST.get("city-name")
+        lat = request.POST.get('lat')
+        lon = request.POST.get('lon')
+        url = f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&units=metric&exclude=current,minutely,hourly,alerts&appid={API_KEY}'
+        response = requests.get(url).json()
+        days = []
+        for item in response['daily']:
+            date_time = datetime.fromtimestamp(item['dt'])
+            days.append({
+                'date': date_time.strftime('%a %d'),
+                'date2': date_time.strftime('%d/%m/%Y'),
+                'min': item['temp']['min'],
+                'max': item['temp']['max'],
+                'description': item['weather'][0]['description'],
+                'icon': item['weather'][0]['icon'],
+            })
+        url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={API_KEY}'
+        response = requests.get(url).json()
+        hours = []
+        for d in response['list']:
+            date_time = datetime.utcfromtimestamp(d['dt'])
+            hours.append({
+                'date': date_time.strftime('%d/%m/%Y'),
+                'time': date_time.strftime('%I %p'),
+                'temp': d['main']['temp'],
+                'wind': d['wind'],
+                'description': d['weather'][0]['description'],
+                'icon': d['weather'][0]['icon']
+            })
+
+        template = get_template('weather/modal.html')
+        modal_render = template.render({'days': days, 'hours': hours, 'city_name': city})
+        return JsonResponse({'modalRender': modal_render})
+
+
 class IndexView(FormView):
     template_name = 'weather/weather.html'
     form_class = AddCityForm
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         session = self.request.session
@@ -23,9 +62,12 @@ class IndexView(FormView):
         for city in cities_list:
             searched_list.append(self.get_city_data(city))
         context['cities'] = searched_list
+        context['days'] = range(7)
+        context['escaped'] = '<p class="bold">escaped</p>',
         return context
 
-    def get_city_data(self, city):
+    @staticmethod
+    def get_city_data(city):
         url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}'
         response = requests.get(url).json()
 
@@ -36,7 +78,9 @@ class IndexView(FormView):
             'temperature': response['main']['temp'],
             'description': response['weather'][0]['description'],
             'icon': response['weather'][0]['icon'],
-            'cod': response['cod']
+            'cod': response['cod'],
+            'lat': response['coord']['lat'],
+            'lon': response['coord']['lon'],
         }
 
     def form_valid(self, form):
