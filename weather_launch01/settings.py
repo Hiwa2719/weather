@@ -25,7 +25,7 @@ SECRET_KEY = 'xs1(i^@dev##k1=21y!28@%#fyg9wnw9&mzadqv6cbc2rwxizs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [' hiwa2719.pythonanywhere.com']
+ALLOWED_HOSTS = ['hiwa2719.pythonanywhere.com']
 
 # Application definition
 
