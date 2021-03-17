@@ -63,7 +63,6 @@ class IndexView(FormView):
             searched_list.append(self.get_city_data(city))
         context['cities'] = searched_list
         context['days'] = range(7)
-        context['escaped'] = '<p class="bold">escaped</p>',
         return context
 
     @staticmethod

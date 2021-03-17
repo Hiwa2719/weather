@@ -3,4 +3,6 @@ requirement.txt
 notes.txt
 __pycache__/
 test.py
-API_KEYS.py
+#API_KEYS.py
+example_test.py
+static/
