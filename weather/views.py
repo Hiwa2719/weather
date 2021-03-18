@@ -20,6 +20,8 @@ class GetModalDetail(View):
         lon = request.POST.get('lon')
         url = f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&units=metric&exclude=current,minutely,hourly,alerts&appid={API_KEY}'
         response = requests.get(url).json()
+        if response.get('cod') == '400':
+            return JsonResponse({'msg': 'wrong location'}, status=403)
         days = []
         for item in response['daily']:
             date_time = datetime.fromtimestamp(item['dt'])
@@ -44,7 +46,6 @@ class GetModalDetail(View):
                 'description': d['weather'][0]['description'],
                 'icon': d['weather'][0]['icon']
             })
-
         template = get_template('weather/modal.html')
         modal_render = template.render({'days': days, 'hours': hours, 'city_name': city})
         return JsonResponse({'modalRender': modal_render})
@@ -69,8 +70,7 @@ class IndexView(FormView):
     def get_city_data(city):
         url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}'
         response = requests.get(url).json()
-
-        if response.get('cod') != 200:
+        if response.get('cod') != '200':
             return response
         return {
             'name': response['name'],
@@ -92,7 +92,7 @@ class IndexView(FormView):
         session_key = 'city_{}'.format(city_name)
         if session.get(session_key):
             return self.form_invalid(form, 'This city already exists in list')
-        session[session_key] = response['name']
+        session[session_key] = city_name
         template = get_template('weather/city_card.html')
         new_city = template.render({'cities': [response]}, request=self.request)
         if self.request.is_ajax():
@@ -116,5 +116,8 @@ class RemoveCity(View):
     def post(self, request, *args, **kwargs):
         city = request.POST.get('city-name')
         session_key = f'city_{city}'
-        del request.session[session_key]
+        try:
+            del request.session[session_key]
+        except KeyError:
+            pass
         return JsonResponse({})
