@@ -10,6 +10,18 @@
 
         //add city
         let form = $('.add-city-form')
+
+        form.hover(function () {
+            form.css({
+                opacity: 1,
+                transition: 'opacity .3s'
+            })
+        }, function () {
+            form.css({
+                opacity: .3
+            })
+        })
+
         form.on('submit', function (event) {
             event.preventDefault()
 
@@ -18,8 +30,9 @@
                 method: 'POST',
                 data: form.serialize(),
                 success: function (data) {
-                    let citiesData = $('.cities-data')
-                    citiesData.append(data.new_city)
+                    let citiesDataRow = $('.cities-data .row').eq(0)
+                    citiesDataRow.append(data.new_city)
+                    form[0].reset()
                 },
                 error: function (errorData) {
                     let errorMessage = errorData.responseJSON.errorMessage
@@ -72,6 +85,7 @@
                     let modalBtn = modalSec.find('#modal-btn')
                     modalBtn.click()
                     modalSec.find('.square').eq("0").click()
+                    console.log('success')
                 },
                 error: function (errorData) {
                     console.log('error')

@@ -1,0 +1,70 @@
+{% load tags %}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter" id="modal-btn">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalCenterTitle">{{ city_name|default:'Marivan' }}</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="mb-3">Daily</h5>
+                <div class="row align-items-center">
+                    {% for day in days %}
+                        <div class="col p-0 position-relative my-3">
+                            <div class="square" data-date="{{ day.date2 }}">
+                                <div class="text-center" style="font-size: 20px">{{ day.date }}</div>
+                                <div class="text-center">
+                                    <img src="http://openweathermap.org/img/w/{{ day.icon }}.png" class="" alt="...">
+                                </div>
+                                <div class="temps">
+                                    <span class="ml-3 mr-2" style="font-size: 20px">{{ day.max|round_less }}°</span>
+                                    <span class="text-secondary" style="font-size: 15px">{{ day.min|round_less }}°</span>
+                                </div>
+                                <div class="ml-3 " style="font-size: 15px">{{ day.description }}</div>
+                                <form action="">
+                                    <input type="hidden" name="date" value="{{ day.date }}">
+                                </form>
+                            </div>
+                            <div class="triangle-down position-absolute d-none" style="left: 33%"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+                <h5 class="mb-3">Hourly</h5>
+                <div class="row">
+                    {% for hour in hours %}
+                        <div class="col text-center hour d-none" data-date="{{ hour.date }}">
+                            <div class="sub pb-2">
+                                <img src="http://openweathermap.org/img/w/{{ hour.icon }}.png" alt="">
+                                <div class="">
+                                    {{ hour.temp|round_less }}°
+                                </div>
+                                <div class="">
+                                    {{ hour.description }}
+                                </div>
+                                <div class="">
+                                    <span><i class="fas fa-arrow-up" style="transform: rotate({{ hour.wind.deg }}deg)"></i></span>
+                                    <span>{{ hour.wind.speed }} km/h</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                {{ hour.time }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer py-3">
+            </div>
+        </div>
+    </div>
+</div>

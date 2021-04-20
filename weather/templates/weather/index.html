@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/CustomCss.css' %}">
+    <title>Your Cities Weather!</title>
+</head>
+<body>
+
+<header class="bg-info py-4">
+    <div class="row">
+        <div class="col-1 "></div>
+        <div class="col-10 col-md-8">
+            <h1 class="text-light">What's the weather like?</h1>
+        </div>
+    </div>
+</header>
+
+<section class="main-section p-5">
+{#    <div class="video-container">#}
+{#        <video src="{{ video_url }}" class="bg-video" type="video/mp4" autoplay muted loop>#}
+{#            Your browser is not supported#}
+{#        </video>#}
+{#    </div>#}
+    <div class="">
+        <div class="row justify-content-center p-3 m-3 ">
+            <div class="col-12 col-md-6">
+                <form method="POST" class="add-city-form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group">
+                                {{ form.city }}
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary form-control.app" id="form-button">Add City</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% if form.city.errors %}
+                            <div class="col-12 form-errors">
+                                <ul>
+                                    {% for error in form.city.errors %}
+                                        <p>
+                                        <li><strong class="text-danger">{{ error|escape|title }}</strong></li>
+                                        </p>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row  mt-3 mt-md-5">
+            <div class="col-6 mx-auto text-center">
+                <a href="{% url 'weather:new_list' %}" class="btn btn-outline-danger" id="new-list">New List</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8 col-md-6 mx-auto">
+                <hr>
+            </div>
+        </div>
+
+        <div class="cities-data scroller">
+            <div class="row my-3 justify-content-center align-items-center">
+                {% for city in cities %}
+                    {% include 'weather/city_card.html' with city=city %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="modal-sec">
+        </div>
+
+        <!-- JS files -->
+        {% include 'weather/js.html' %}
+    </div>
+</section>
+</body>
+</html>
+

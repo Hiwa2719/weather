@@ -1,4 +1,13 @@
 
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.add-city-form {
+    opacity: .3;
+}
+
 .close-row {
     z-index: 100;
     position: absolute;
@@ -8,12 +17,16 @@
 
 .city-card {
     transition: all .4s;
+    background-color: rgba(255, 255, 255, 0.2);
     box-shadow: 1px 2px 5px #999;
 }
 
 .city-card:hover {
-    box-shadow: 2px 3px 15px #999;
-    transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 2px 3px 25px #cccccc;
+    transform: translateY(-2px);
+    transition: 500ms;
+    transition-timing-function: ease-in-out;
     cursor: pointer;
 }
 
@@ -42,4 +55,24 @@
 .hour .sub{
     border-bottom: 2px solid #eeeeee;
 
+}
+
+.main-section {
+    position: relative;
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 90vh;
+    width: 100%;
+    z-index: -100;
+    opacity: 1;
+}
+
+.bg-video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }

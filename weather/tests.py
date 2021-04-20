@@ -1,11 +1,15 @@
 import time
-from selenium import webdriver
+
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse, HttpResponseRedirect
 from django.test import TestCase, RequestFactory
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from .forms import AddCityForm
 from .views import IndexView
@@ -14,6 +18,7 @@ from .views import IndexView
 class FunctionalTestCase(TestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
+        self.wait = WebDriverWait(self.browser, 15)
 
     def test_get_index(self):
         self.browser.get('http://127.0.0.1:8000/')
@@ -24,27 +29,36 @@ class FunctionalTestCase(TestCase):
         form = self.browser.find_element_by_id('id_city')
         form.send_keys(city)
         self.browser.find_element_by_id('form-button').click()
-        time.sleep(timer)
 
     def test_post_index(self):
         self.add_city('marivan')
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'card-detail')))
         self.assertIn('Marivan', self.browser.page_source)
 
     def test_post_index_wrong_city(self):
         self.add_city('sna', 15)
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'form-errors')))
         self.assertIn('City Not Found', self.browser.page_source)
 
     def test_remove_city(self):
         self.add_city('marivan')
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'close')))
         self.browser.find_element_by_class_name('close').click()
-        time.sleep(2)
+        self.wait.until_not(EC.presence_of_element_located((By.CLASS_NAME, 'card-detail')))
         self.assertNotIn('Marivan', self.browser.page_source)
 
     def test_new_list(self):
         self.add_city('marivan')
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'card-detail')))
         self.browser.find_element_by_id('new-list').click()
-        time.sleep(5)
         self.assertNotIn('Marivan', self.browser.page_source)
+
+    def test_repetitive_city(self):
+        self.add_city('marivan')
+        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'card-detail')))
+        self.add_city('marivan')
+        self.wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'form-errors')))
+        self.assertIn('This City Already Exists In List', self.browser.page_source)
 
     def tearDown(self) -> None:
         self.browser.quit()
@@ -53,7 +67,6 @@ class FunctionalTestCase(TestCase):
 class IndexViewTest(TestCase):
     def setUp(self) -> None:
         self.factory = RequestFactory()
-        view = IndexView()
 
     def setup_view(self, request):
         view = IndexView()
@@ -67,7 +80,9 @@ class IndexViewTest(TestCase):
         view = self.setup_view(request)
         context = view.get_context_data()
         self.assertIn('cities', context)
+        self.assertEqual(context['cities'], [])
         self.assertIn('days', context)
+        self.assertEqual(context['days'], range(7))
 
     def test_context_data_with_city_in_session(self):
         request = self.factory.get('/')
@@ -95,6 +110,7 @@ class IndexViewTest(TestCase):
         from django.http import HttpResponseRedirect
         self.assertEqual(form_valid_method.__class__, HttpResponseRedirect)
         self.assertEqual(form_valid_method.status_code, 302)
+        self.assertEqual(form_valid_method.url, reverse('weather:index'))
 
     def test_form_valid_ajax(self):
         request = self.factory.post('/', data={'city': 'marivan'}, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -131,7 +147,7 @@ class IndexViewTest(TestCase):
     def test_index_view_get(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed('weather/weather.html')
+        self.assertTemplateUsed('weather/index.html')
         self.assertIn('cities', response.context)
         self.assertIn('days', response.context)
         self.assertIn('form', response.context)
@@ -150,7 +166,8 @@ class NewListTest(TestCase):
         session = self.client.session
         session['city_marivan'] = 'marivan'
         session.save()
-        self.client.get(reverse('weather:new_list'), follow=True)
+        response = self.client.get(reverse('weather:new_list'), follow=True)
+        print(response.request.get('PATH_INFO'))
         self.assertNotEqual(self.client.session.get('city_marivan'), 'marivan')
 
 

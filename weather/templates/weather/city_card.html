@@ -1,10 +1,8 @@
 
-
-
-{% for city in cities %}
-    <div class="row my-3">
-        <div class="col-6 col-md-4 col-lg-4 col-xl-3 mx-auto">
-            <div class="city-card border rounded position-relative">
+<div class="col-6 col-sm-6 col-md-5 col-lg-4 col-xl-3 my-2 px-1">
+    <div class="row">
+        <div class="col mx-auto">
+            <div class="city-card border-rounded position-relative">
                 <div class="row close-row">
                     <div class="col">
                         <form method="POST">
@@ -28,6 +26,7 @@
                                 <h3 class="card-title m-0">{{ city.name }}</h3>
                                 <p class="card-text m-0"><small class="text-muted">{{ city.temperature }} C</small></p>
                                 <p class="card-text m-0">{{ city.description }}</p>
+                                <p class="card-text m-0 text-muted small">local time: {{ city.local_time }}</p>
                             </div>
                         </div>
                     </div>
@@ -35,4 +34,4 @@
             </div>
         </div>
     </div>
-{% endfor %}
+</div>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--{#    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">#}-->
+    <link rel="stylesheet" href="..\static\css\bootstrap.css">
+    <!--{#    <link rel="stylesheet" href="{% static 'fontawesome-free-5.11.2-web/css/all.css' %}">#}-->
+    <link rel="stylesheet" href="..\static\fontawesome-free-5.11.2-web\css\all.css">
+    <!--{#    <link rel="stylesheet" href="{% static 'css/CustomCss.css' %}">#}-->
+    <link rel="stylesheet" href="..\static\css\CustomCss.css">
+    <title>Your Cities Weather!</title>
+</head>
+<body>
+
+<header class="bg-info py-4">
+    <div class="row">
+        <div class="col-1 "></div>
+        <div class="col-10 col-md-8">
+            <h1 class="text-light">What's the weather like?</h1>
+        </div>
+    </div>
+</header>
+
+<section class="position-relative">
+    <div class="row justify-content-center align-items-center bg-dark">
+        <div class="col text-center">
+            <img src="nature2.jpg" alt="" style="height: 100vh">
+        </div>
+    </div>
+
+    <section class="main-section">
+        <!--        <div class="video-container">-->
+        <!--            <video src="Empty Road in Croatia.mp4" class="bg-video" type="video/mp4" autoplay muted loop>-->
+        <!--                Your browser is not supported-->
+        <!--            </video>-->
+        <!--        </div>-->
+        <div class="main-body move-down">
+            <div class="row justify-content-center p-3 card-body">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                    <form method="POST" class="add-city-form">
+                        <!--                    {% csrf_token %}-->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <!--                                {{ form.city }}-->
+                                    <input type="text" class="form-control">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary form-control.app" id="form-button">Add City</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                        {% if form.city.errors %}-->
+                            <!--                            <div class="col-12 form-errors">-->
+                            <!--                                <ul>-->
+                            <!--&lt;!&ndash;                                    {% for error in form.city.errors %}&ndash;&gt;-->
+                            <!--                                        <p>-->
+                            <!--                                        <li><strong class="text-danger">Errors</strong></li>-->
+                            <!--                                        </p>-->
+                            <!--&lt;!&ndash;                                    {% endfor %}&ndash;&gt;-->
+                            <!--                                </ul>-->
+                            <!--                            </div>-->
+                            <!--                        {% endif %}-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row new-line-btn d-none">
+                <div class="col-6 mx-auto text-center">
+                    <!--                <a href="{% url 'weather:new_list' %}" class="btn btn-outline-danger" id="new-list">New List</a>-->
+                    <a href="" class="btn btn-outline-danger" id="new-list">New List</a>
+                </div>
+            </div>
+            <div class="row new-line-row d-none">
+                <div class="col-8 col-md-6 mx-auto">
+                    <hr>
+                </div>
+            </div>
+            <div class="cities-data p-3 pt-5">
+                <div class="row justify-content-center align-items-center mx-3">
+                    <div class="modal-sec">
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter" id="modal-btn">
+                            Launch demo modal
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-settings" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalCenterTitle">Marivan</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5 class="mb-3">Daily</h5>
+                                        <div class="days d-flex justify-content-around align-items-center">
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-fill day day2">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center" data-date="20.04.2021">
+                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                        <div class="">
+                                                            <img src="01d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">23°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down d-none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <h5 class="mb-3">Hourly</h5>
+                                        <div class="hours d-inline-flex align-items-center">
+
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+                                            <div class="col text-center hour" data-date="20/04/2021">
+                                                <div class="sub pb-2">
+                                                    <img src="01d.png" alt="">
+                                                    <div class="">
+                                                        23°
+                                                    </div>
+                                                    <div class="">
+                                                        description
+                                                    </div>
+                                                    <div class="">
+                                                        <span><i class="fas fa-arrow-up"></i></span>
+                                                        <span>18 km/h</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    23:16:50
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer py-3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+<!-- JS files -->
+<!--        {% load static %}-->
+
+<!--        <script src="{% static 'js/jquery.js' %}"></script>-->
+<!--        <script src="{% static 'js/popper.js' %}"></script>-->
+<!--        <script src="{% static 'js/bootstrap.js' %}"></script>-->
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+<!--<script src="../static/js/popper.js"></script>-->
+<script src="script.js"></script>
+
+
+</body>
+</html>
+

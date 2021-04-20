@@ -1,15 +1,18 @@
+import pytz
+import random
 import requests
-import json
 from datetime import datetime, date
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.template.loader import get_template
 from django.views.generic import FormView, View
+from tzwhere import tzwhere
 
 from .forms import AddCityForm
 
 import API_KEYS
 API_KEY = getattr(API_KEYS, 'WEATHER_MAP_API_KEY', None)
+tz = tzwhere.tzwhere()
 
 
 class GetModalDetail(View):
@@ -18,7 +21,8 @@ class GetModalDetail(View):
         city = request.POST.get("city-name")
         lat = request.POST.get('lat')
         lon = request.POST.get('lon')
-        url = f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&units=metric&exclude=current,minutely,hourly,alerts&appid={API_KEY}'
+        url = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}" \
+              f"&units=metric&exclude=current,minutely,hourly,alerts&appid={API_KEY}"
         response = requests.get(url).json()
         if response.get('cod') == '400':
             return JsonResponse({'msg': 'wrong location'}, status=403)
@@ -52,9 +56,9 @@ class GetModalDetail(View):
 
 
 class IndexView(FormView):
-    template_name = 'weather/weather.html'
+    template_name = 'weather/index.html'
     form_class = AddCityForm
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         session = self.request.session
@@ -64,27 +68,45 @@ class IndexView(FormView):
             searched_list.append(self.get_city_data(city))
         context['cities'] = searched_list
         context['days'] = range(7)
+        context['video_url'] = self.get_video_url()
         return context
 
     @staticmethod
+    def get_video_url():
+        """Gets a video url from pexels.com"""
+        url = "https://api.pexels.com/videos/search?query=landscape&orientation=landscape" \
+              "&Authorization=563492ad6f917000010000011a215b432e5b4c05b998276c9986502e&per_page=80"
+        response = requests.get(url).json()
+        video_dict = random.choice(response['videos'])
+        return video_dict['video_files'][0]['link']
+
+    @staticmethod
     def get_city_data(city):
+        """Catches data per city from OpenWeatherMap"""
         url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}'
         response = requests.get(url).json()
-        if response.get('cod') != '200':
+        if response.get('cod') != 200:
             return response
+        lat = response['coord']['lat']
+        lon = response['coord']['lon']
+        tz_string = tz.tzNameAt(lat, lon)
+        timezone = pytz.timezone(tz_string)
         return {
             'name': response['name'],
             'temperature': response['main']['temp'],
             'description': response['weather'][0]['description'],
             'icon': response['weather'][0]['icon'],
             'cod': response['cod'],
-            'lat': response['coord']['lat'],
-            'lon': response['coord']['lon'],
+            'lat': lat,
+            'lon': lon,
+            'local_time': datetime.now(tz=timezone).time(),
         }
 
     def form_valid(self, form):
         city = form.cleaned_data.get('city').lower()
         session = self.request.session
+        if len([key for key in session.keys() if key.startswith('city_')]) == 9:
+            return self.form_invalid(form, "Sorry you can not add more than nine cities")
         response = self.get_city_data(city)
         if response.get('cod') != 200:
             return self.form_invalid(form, response['message'])
@@ -94,7 +116,7 @@ class IndexView(FormView):
             return self.form_invalid(form, 'This city already exists in list')
         session[session_key] = city_name
         template = get_template('weather/city_card.html')
-        new_city = template.render({'cities': [response]}, request=self.request)
+        new_city = template.render({'city': response}, request=self.request)
         if self.request.is_ajax():
             return JsonResponse({'new_city': new_city})
         return redirect('weather:index')
@@ -107,12 +129,14 @@ class IndexView(FormView):
 
 
 class NewList(View):
+    """this view gives an new page by flushing session"""
     def get(self, request, *args, **kwargs):
         request.session.flush()
         return redirect('weather:index')
 
 
 class RemoveCity(View):
+    """This view removes a city from page"""
     def post(self, request, *args, **kwargs):
         city = request.POST.get('city-name')
         session_key = f'city_{city}'
