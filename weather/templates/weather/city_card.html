@@ -1,34 +1,29 @@
-
-<div class="col-6 col-sm-6 col-md-5 col-lg-4 col-xl-3 my-2 px-1">
-    <div class="row">
-        <div class="col mx-auto">
-            <div class="city-card border-rounded position-relative">
-                <div class="row close-row">
-                    <div class="col">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="city-name" value="{{ city.name }}">
-                            <input type="hidden" name="lat" value="{{ city.lat }}">
-                            <input type="hidden" name="lon" value="{{ city.lon }}">
-                            <button type="button" class="close" aria-label="Close">
-                                <i class="far fa-times-circle fa-sm"></i>
-                            </button>
-                        </form>
-                    </div>
+<div class="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3 my-2">
+    <div class="city-card border rounded position-relative">
+        <div class="row close-row">
+            <div class="col">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="city-name" value="{{ city.name }}">
+                    <input type="hidden" name="lat" value="{{ city.lat }}">
+                    <input type="hidden" name="lon" value="{{ city.lon }}">
+                    <button type="button" class="close" aria-label="Close">
+                        <i class="far fa-times-circle fa-sm"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="card-detail">
+            <div class="row align-items-center">
+                <div class="col-md-4 col-lg-3 text-center">
+                    <img src="http://openweathermap.org/img/w/{{ city.icon }}.png" class="" style="height: 100px" alt="...">
                 </div>
-                <div class="card-detail">
-                    <div class="row align-items-center">
-                        <div class="col-md-4 col-lg-3 text-center">
-                            <img src="http://openweathermap.org/img/w/{{ city.icon }}.png" class="" style="height: 100px" alt="...">
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card-body">
-                                <h3 class="card-title m-0">{{ city.name }}</h3>
-                                <p class="card-text m-0"><small class="text-muted">{{ city.temperature }} C</small></p>
-                                <p class="card-text m-0">{{ city.description }}</p>
-                                <p class="card-text m-0 text-muted small">local time: {{ city.local_time }}</p>
-                            </div>
-                        </div>
+                <div class="col-md-7">
+                    <div class="card-body pt-0 pt-md-4">
+                        <h3 class="card-title m-0">{{ city.name }}</h3>
+                        <p class="card-text m-0"><small class="text-muted">{{ city.temperature }}</small></p>
+                        <p class="card-text m-0">{{ city.description }}</p>
+                        <p class="card-text m-0 text-muted small">local time: {{ city.local_time }}</p>
                     </div>
                 </div>
             </div>

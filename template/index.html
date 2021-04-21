@@ -35,7 +35,7 @@
         <!--            </video>-->
         <!--        </div>-->
         <div class="main-body move-down">
-            <div class="row justify-content-center p-3 card-body">
+            <div class="row justify-content-center p-3">
                 <div class="col-12 col-sm-10 col-md-8 col-lg-6">
                     <form method="POST" class="add-city-form">
                         <!--                    {% csrf_token %}-->
@@ -50,16 +50,16 @@
                                 </div>
                             </div>
                             <!--                        {% if form.city.errors %}-->
-                            <!--                            <div class="col-12 form-errors">-->
-                            <!--                                <ul>-->
-                            <!--&lt;!&ndash;                                    {% for error in form.city.errors %}&ndash;&gt;-->
-                            <!--                                        <p>-->
-                            <!--                                        <li><strong class="text-danger">Errors</strong></li>-->
-                            <!--                                        </p>-->
-                            <!--&lt;!&ndash;                                    {% endfor %}&ndash;&gt;-->
-                            <!--                                </ul>-->
-                            <!--                            </div>-->
-                            <!--                        {% endif %}-->
+                                <!--                            <div class="col-12 form-errors">-->
+                                <!--                                <ul>-->
+                                <!--&lt;!&ndash;                                    {% for error in form.city.errors %}&ndash;&gt;-->
+                                <!--                                        <p>-->
+                                <!--                                        <li><strong class="text-danger">Errors</strong></li>-->
+                                <!--                                        </p>-->
+                                <!--&lt;!&ndash;                                    {% endfor %}&ndash;&gt;-->
+                                <!--                                </ul>-->
+                                <!--                            </div>-->
+                                <!--                        {% endif %}-->
                         </div>
                     </form>
                 </div>
@@ -97,159 +97,169 @@
                                     <div class="modal-body">
                                         <h5 class="mb-3">Daily</h5>
                                         <div class="days d-flex justify-content-around align-items-center">
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="21/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center square-light">
+                                                        <div class="text-center" style="font-size: 20px">Wed 21</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/03d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">28°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">17°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">scattered clouds</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Wed 21">
+                                                        </form>
+                                                    </div>
+                                                    <div class="triangle-down"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex-fill day day2" data-date="22/04/2021">
+                                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Thu 22</div>
+                                                        <div class="">
+                                                            <img src="http://openweathermap.org/img/w/03d.png" class="" alt="...">
+                                                        </div>
+                                                        <div class="temps">
+                                                            <span class="mx-2" style="font-size: 20px">28°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">17°</span>
+                                                        </div>
+                                                        <div class="" style="font-size: 15px">scattered clouds</div>
+                                                        <form action="">
+                                                            <input type="hidden" name="date" value="Thu 22">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="23/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Fri 23</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/04d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">26°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">16°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">broken clouds</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Fri 23">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="24/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Sat 24</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/03d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">25°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">15°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">scattered clouds</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Sat 24">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="25/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Sun 25</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/02d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">26°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">13°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">few clouds</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Sun 25">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="26/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Mon 26</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/01d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">29°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">15°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">clear sky</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Mon 26">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="27/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Tue 27</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/10d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">27°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">16°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">light rain</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Tue 27">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
+
+                                            <div class="flex-fill day day2" data-date="28/04/2021">
                                                 <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
+                                                    <div class="square p-2 text-center">
+                                                        <div class="text-center" style="font-size: 20px">Wed 28</div>
                                                         <div class="">
-                                                            <img src="01d.png" class="" alt="...">
+                                                            <img src="http://openweathermap.org/img/w/01d.png" class="" alt="...">
                                                         </div>
                                                         <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
+                                                            <span class="mx-2" style="font-size: 20px">25°</span>
+                                                            <span class="text-secondary" style="font-size: 15px">13°</span>
                                                         </div>
-                                                        <div class="" style="font-size: 15px">description</div>
+                                                        <div class="" style="font-size: 15px">clear sky</div>
                                                         <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
+                                                            <input type="hidden" name="date" value="Wed 28">
                                                         </form>
                                                     </div>
                                                     <div class="triangle-down d-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-fill day day2">
-                                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                                    <div class="square p-2 text-center" data-date="20.04.2021">
-                                                        <div class="text-center" style="font-size: 20px">Sun 28</div>
-                                                        <div class="">
-                                                            <img src="01d.png" class="" alt="...">
-                                                        </div>
-                                                        <div class="temps">
-                                                            <span class="mx-2" style="font-size: 20px">23°</span>
-                                                            <span class="text-secondary" style="font-size: 15px">35°</span>
-                                                        </div>
-                                                        <div class="" style="font-size: 15px">description</div>
-                                                        <form action="">
-                                                            <input type="hidden" name="date" value="21.04.2021">
-                                                        </form>
-                                                    </div>
-                                                    <div class="triangle-down d-none"></div>
-                                                </div>
-                                            </div>
+
                                         </div>
+
                                         <hr>
                                         <h5 class="mb-3">Hourly</h5>
                                         <div class="hours d-inline-flex align-items-center">

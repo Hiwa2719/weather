@@ -19,69 +19,74 @@
     </div>
 </header>
 
-<section class="main-section p-5">
-{#    <div class="video-container">#}
-{#        <video src="{{ video_url }}" class="bg-video" type="video/mp4" autoplay muted loop>#}
-{#            Your browser is not supported#}
-{#        </video>#}
-{#    </div>#}
-    <div class="">
-        <div class="row justify-content-center p-3 m-3 ">
-            <div class="col-12 col-md-6">
-                <form method="POST" class="add-city-form">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="input-group">
-                                {{ form.city }}
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary form-control.app" id="form-button">Add City</button>
+<section class="position-relative">
+    <!--Background image-->
+    <div class="row justify-content-center align-items-center bg-dark">
+        <div class="col text-center">
+            <img src="{{ background_image }}" alt="" style="height: 100vh">
+        </div>
+    </div>
+
+    <section class="main-section">
+        <div class="main-body move-down">
+            <!--form-->
+            <div class="row justify-content-center p-3">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                    <form method="POST" class="add-city-form">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    {{ form.city }}
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary form-control.app" id="form-button">Add City</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {% if form.city.errors %}
+                            {% if form.city.errors %}
                             <div class="col-12 form-errors">
                                 <ul>
                                     {% for error in form.city.errors %}
-                                        <p>
-                                        <li><strong class="text-danger">{{ error|escape|title }}</strong></li>
-                                        </p>
+                                    <p>
+                                    <li><strong class="text-danger">Errors</strong></li>
+                                    </p>
                                     {% endfor %}
                                 </ul>
                             </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--new list btn -->
+            <div class="row new-line-btn d-none">
+                <div class="col-6 mx-auto text-center">
+                    <a href="{% url 'weather:new_list' %}" class="btn btn-outline-danger" id="new-list">New List</a>
+                </div>
+            </div>
+            <div class="row new-line-row d-none">
+                <div class="col-8 col-md-6 mx-auto">
+                    <hr>
+                </div>
+            </div>
+            <!-- cities-->
+            <div class="cities-data p-3 pt-5">
+                <div class="row justify-content-center align-items-center mx-3">
+                    {% for city in cities %}
+                        {% include 'weather/city_card.html' with city=city %}
+                    {% endfor %}
+                    <div class="modal-sec">
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-
-        <div class="row  mt-3 mt-md-5">
-            <div class="col-6 mx-auto text-center">
-                <a href="{% url 'weather:new_list' %}" class="btn btn-outline-danger" id="new-list">New List</a>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-8 col-md-6 mx-auto">
-                <hr>
-            </div>
-        </div>
-
-        <div class="cities-data scroller">
-            <div class="row my-3 justify-content-center align-items-center">
-                {% for city in cities %}
-                    {% include 'weather/city_card.html' with city=city %}
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="modal-sec">
-        </div>
-
-        <!-- JS files -->
-        {% include 'weather/js.html' %}
-    </div>
+    </section>
 </section>
+
+<!-- JS files -->
+{% include 'weather/js.html' %}
+
+
 </body>
 </html>
 

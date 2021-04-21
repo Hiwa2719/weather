@@ -68,17 +68,20 @@ class IndexView(FormView):
             searched_list.append(self.get_city_data(city))
         context['cities'] = searched_list
         context['days'] = range(7)
-        context['video_url'] = self.get_video_url()
+        context['background_image'] = self.get_photo_url()
         return context
 
     @staticmethod
-    def get_video_url():
-        """Gets a video url from pexels.com"""
-        url = "https://api.pexels.com/videos/search?query=landscape&orientation=landscape" \
-              "&Authorization=563492ad6f917000010000011a215b432e5b4c05b998276c9986502e&per_page=80"
-        response = requests.get(url).json()
-        video_dict = random.choice(response['videos'])
-        return video_dict['video_files'][0]['link']
+    def get_photo_url():
+        """Gets a photo url from pexels.com"""
+        url = "https://api.pexels.com/v1/search?query=landscape&orientation=landscape" \
+              "&Authorization=563492ad6f917000010000011a215b432e5b4c05b998276c9986502e&size=large&per_page=80"
+        response = requests.get(url,
+                                headers={
+                                    'authorization': '563492ad6f917000010000011a215b432e5b4c05b998276c9986502e'
+                                }).json()
+        photo_dict = random.choice(response['photos'])
+        return photo_dict['src']['original']
 
     @staticmethod
     def get_city_data(city):
