@@ -40,6 +40,8 @@ class GetModalDetail(View):
             })
         url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={WEATHER_MAP_API_KEY}'
         response = requests.get(url).json()
+        if response.get('cod') == '400':
+            return JsonResponse({'msg': 'wrong location'}, status=403)
         hours = []
         for d in response['list']:
             date_time = datetime.utcfromtimestamp(d['dt'])
@@ -90,6 +92,7 @@ class IndexView(FormView):
         url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={WEATHER_MAP_API_KEY}'
         response = requests.get(url).json()
         if response.get('cod') != 200:
+
             return response
         lat = response['coord']['lat']
         lon = response['coord']['lon']
