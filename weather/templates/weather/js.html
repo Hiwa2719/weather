@@ -61,12 +61,13 @@
       let form = $this.closest('form')
 
       $.ajax({
-        // url: '{% url 'weather:remove_city' %}',
+        url: '{% url 'weather:remove_city' %}',
         method: 'POST',
         data: form.serialize(),
         success: function (data) {
           let cityCard = $this.closest('.city-card')
           cityCard.remove()
+            console.log('success')
           let citiesDataHtml = '<div class="row justify-content-center align-items-center mx-3">\n' +
                   '                    <div class="modal-sec"></div>\n' +
                   '                </div>'

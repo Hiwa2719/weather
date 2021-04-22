@@ -8,10 +8,11 @@ from django.template.loader import get_template
 from django.views.generic import FormView, View
 from tzwhere import tzwhere
 
+import API_KEYS
 from .forms import AddCityForm
 
-import API_KEYS
-API_KEY = getattr(API_KEYS, 'WEATHER_MAP_API_KEY', None)
+WEATHER_MAP_API_KEY = getattr(API_KEYS, 'WEATHER_MAP_API_KEY')
+PEXEL_API_KEY = getattr(API_KEYS, 'PEXEL_API_KEY')
 tz = tzwhere.tzwhere()
 
 
@@ -22,7 +23,7 @@ class GetModalDetail(View):
         lat = request.POST.get('lat')
         lon = request.POST.get('lon')
         url = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}" \
-              f"&units=metric&exclude=current,minutely,hourly,alerts&appid={API_KEY}"
+              f"&units=metric&exclude=current,minutely,hourly,alerts&appid={WEATHER_MAP_API_KEY}"
         response = requests.get(url).json()
         if response.get('cod') == '400':
             return JsonResponse({'msg': 'wrong location'}, status=403)
@@ -37,7 +38,7 @@ class GetModalDetail(View):
                 'description': item['weather'][0]['description'],
                 'icon': item['weather'][0]['icon'],
             })
-        url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={API_KEY}'
+        url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={WEATHER_MAP_API_KEY}'
         response = requests.get(url).json()
         hours = []
         for d in response['list']:
@@ -75,10 +76,10 @@ class IndexView(FormView):
     def get_photo_url():
         """Gets a photo url from pexels.com"""
         url = "https://api.pexels.com/v1/search?query=landscape&orientation=landscape" \
-              "&Authorization=563492ad6f917000010000011a215b432e5b4c05b998276c9986502e&size=large&per_page=80"
+              f"&Authorization={PEXEL_API_KEY}&size=large&per_page=80"
         response = requests.get(url,
                                 headers={
-                                    'authorization': '563492ad6f917000010000011a215b432e5b4c05b998276c9986502e'
+                                    'authorization': PEXEL_API_KEY
                                 }).json()
         photo_dict = random.choice(response['photos'])
         return photo_dict['src']['original']
@@ -86,7 +87,7 @@ class IndexView(FormView):
     @staticmethod
     def get_city_data(city):
         """Catches data per city from OpenWeatherMap"""
-        url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}'
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={WEATHER_MAP_API_KEY}'
         response = requests.get(url).json()
         if response.get('cod') != 200:
             return response
