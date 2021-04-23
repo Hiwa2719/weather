@@ -1,7 +1,14 @@
 
 body {
-    height: 100vh;
+    max-height: 100vh;
     overflow: hidden;
+}
+
+.main-section {
+    position: absolute;
+    top: 0;
+    height: 90vh;
+    width: 100%;
 }
 
 .add-city-form {
@@ -14,6 +21,23 @@ body {
     right: 0
 }
 
+.move-up {
+    padding-top: 10vh;
+    transition: all 2s;
+}
+
+.move-down {
+    padding-top: 20vh;
+    transition: 1s;
+}
+
+.cities-data {
+    width:100%;
+    /*max-width: 1120px;*/
+    height: 60vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
 
 .city-card {
     transition: all .4s;
@@ -30,26 +54,38 @@ body {
     cursor: pointer;
 }
 
+.days, .hours {
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.day, .hour {
+    min-width: 100px;
+    min-height: 100px;
+}
+
 .triangle-down {
-	width: 0;
-	height: 0;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
-	border-top: 30px solid rgba(77, 86, 110, 0.57);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid rgba(77, 86, 110, 0.57);
     border-bottom: 0;
 }
 
-.square {
+.day {
     background-color: transparent;
     border: 2px solid transparent;
 }
 
 .square-light {
-  background-color: rgba(77, 86, 110, 0.57);
+    transition: all .3s;
+    background-color: rgba(77, 86, 110, 0.57);
+    border-radius: 2px;
 }
 
-.square:hover {
-  border: 2px solid red;
+.day2:hover {
+    border: 2px solid red;
 }
 
 .hour .sub{
@@ -57,22 +93,49 @@ body {
 
 }
 
-.main-section {
-    position: relative;
+
+
+/*.video-container {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    height: 90vh;*/
+/*    width: 100%;*/
+/*    z-index: -100;*/
+/*    opacity: 1;*/
+/*}*/
+
+/*.bg-video {*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    object-fit: cover;*/
+/*}*/
+
+
+@media screen and (min-width: 576px){
+    .modal-settings {
+        max-width: 95%;
+    }
+}
+@media screen and (min-width: 768px){
+    .modal-settings {
+        max-width: 90%;
+    }
+}
+@media screen and (min-width: 992px){
+    .modal-settings {
+        max-width: 80%;
+    }
 }
 
-.video-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 90vh;
-    width: 100%;
-    z-index: -100;
-    opacity: 1;
+@media screen and (min-width: 1300px){
+    .modal-settings {
+        max-width: 70%;;
+    }
 }
 
-.bg-video {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+@media screen and (min-width: 1500px){
+    .modal-settings {
+        max-width: 60%;
+    }
 }

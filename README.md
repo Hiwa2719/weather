@@ -1,6 +1,6 @@
 # Weather app - an open source weather web application
 
-![weather_app](static/images/readme.gif)
+![weather_app](static_root/images/readme.gif)
 
 ### welcome to weatherapp
 
