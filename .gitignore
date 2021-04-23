@@ -8,3 +8,4 @@ example_test.py
 static/
 API_KEYS.py
 template
+db.sqlite3
